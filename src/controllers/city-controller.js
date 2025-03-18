@@ -17,6 +17,42 @@ const createCity = async (req, res) => {
   }
 };
 
+const getAllCities = async (req, res) => {
+  try {
+    const cities = await CityService.getAllCities();
+    SuccessResponse.data = cities;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
+const updateCity = async (req, res) => {
+  try {
+    const city = await CityService.updateCity(req.params.id, req.body);
+    SuccessResponse.data = city;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
+const destroyCity = async (req, res) => {
+  try {
+    const city = await CityService.destroyCity(req.params.id);
+    SuccessResponse.data = city;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
 module.exports = {
-    createCity
-}
+  createCity,
+  destroyCity,
+  getAllCities,
+  updateCity
+};
