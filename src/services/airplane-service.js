@@ -1,5 +1,4 @@
 const { AirplaneRepository } = require("../repositories");
-// const airplaneRepository = require("../repositories/airplane-repository");
 const AppError = require("../utils/errors/app-error");
 const { StatusCodes } = require("http-status-codes");
 
@@ -7,6 +6,7 @@ const { StatusCodes } = require("http-status-codes");
 
 const createAirplane = async (data) => {
   try {
+    // console.log(data, "data");
     const airplane = await AirplaneRepository.create(data);
     return airplane;
   } catch (error) {
