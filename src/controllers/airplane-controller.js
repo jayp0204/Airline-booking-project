@@ -44,7 +44,10 @@ const getAirplane = async (req, res) => {
 
 const updateAirplane = async (req, res) => {
   try {
-    const airplane = await AirplaneService.updateAirplane(req.params.id, req.body);
+    const airplane = await AirplaneService.updateAirplane(
+      req.params.id,
+      req.body
+    );
     SuccessResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
@@ -69,5 +72,5 @@ module.exports = {
   getAirplanes,
   getAirplane,
   destroyAirplane,
-  updateAirplane
+  updateAirplane,
 };

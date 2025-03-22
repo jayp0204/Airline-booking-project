@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "airplaneId",
         onDelete: "CASCADE",
       });
+      // this.hasMany(models.Flight, {
+      //   foreignKey: "departureAirportId",
+      //   onDelete: "CASCADE",
+      // });
+      // this.hasMany(models.Flight, {
+      //   foreignKey: "arrivalAirportId",
+      //   onDelete: "CASCADE",
+      // });
     }
   }
   Airplane.init(
@@ -24,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
           isAlphanumeric: true,
         },
       },
-      capacity: {
+      capacity: { //total number of seats
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
