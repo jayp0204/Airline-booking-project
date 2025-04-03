@@ -44,44 +44,52 @@ const getAllFlights = async (query) => {
     customFilter.arrivalAirportId = arrivalAirportId;
 
     //TODO: add a check that departureAirportId and arrivalAirportId are not the same
-  }
+    if (departureAirportId == arrivalAirportId) {
+      throw new AppError(
+        "Departure and Arrival airports cannot be the same",
+        StatusCodes.BAD_REQUEST
+      );
+    }
 
-  if (query.price) {
-    [minPrice, maxPrice] = query.price.split("-");
-    customFilter.price = {
-      [Op.between]: [minPrice, maxPrice == undefined ? 20000 : maxPrice],
-    };
-  }
+    if (query.price) {
+      [minPrice, maxPrice] = query.price.split("-");
+      customFilter.price = {
+        [Op.between]: [minPrice, maxPrice == undefined ? 20000 : maxPrice],
+      };
+    }
 
-  if (query.travellers) {
-    customFilter.totalSeats = {
-      [Op.gte]: query.travellers,
-    };
-  }
+    if (query.travellers) {
+      customFilter.totalSeats = {
+        [Op.gte]: query.travellers,
+      };
+    }
 
-  if (query.tripDate) {
-    customFilter.departureTime = {
-      [Op.between]: [query.tripDate, query.tripDate + endingTripTime],
-    };
-  }
+    if (query.tripDate) {
+      customFilter.departureTime = {
+        [Op.between]: [query.tripDate, query.tripDate + endingTripTime],
+      };
+    }
 
-  if (query.sort) {
-    const params = query.sort.split(",");
-    const sortFilters = params.map((param) => param.split("_"));
-    sortFilter = sortFilters;
-  }
-  try {
-    const flights = await FlightRepository.getAllFlights(
-      customFilter,
-      sortFilter
-    );
-    return flights;
-  } catch (error) {
-    console.log(error);
-    throw new AppError(
-      "Cannot fetch the data of all flights",
-      StatusCodes.INTERNAL_SERVER_ERROR
-    );
+    if (query.sort) {
+      const params = query.sort.split(",");
+      const sortFilters = params.map((param) => param.split("_"));
+      sortFilter = sortFilters;
+    }
+
+    // TODO: add a check that total seats <= capacity of the airplane
+    try {
+      const flights = await FlightRepository.getAllFlights(
+        customFilter,
+        sortFilter
+      );
+      return flights;
+    } catch (error) {
+      console.log(error);
+      throw new AppError(
+        "Cannot fetch the data of all flights",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 };
 
