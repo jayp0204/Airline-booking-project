@@ -29,7 +29,7 @@ const createFlight = async (req, res) => {
 
 const getAllFlights = async (req, res) => {
   try {
-    console.log(req.query, "queryyy")
+    // console.log(req.query, "queryyy")
     const flights = await FlightService.getAllFlights(req.query);
     SuccessResponse.data = flights;
     return res.status(StatusCodes.CREATED).json(SuccessResponse);
@@ -40,7 +40,19 @@ const getAllFlights = async (req, res) => {
   }
 };
 
+const getFlight = async (req, res) => {
+  try {
+    const flight = await FlightService.getFlight(req.params.id);
+    SuccessResponse.data = flight;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
 module.exports = {
   createFlight,
-  getAllFlights
+  getAllFlights,
+  getFlight,
 };

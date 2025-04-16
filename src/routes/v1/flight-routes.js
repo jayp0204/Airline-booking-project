@@ -17,4 +17,7 @@ router.get(
     FlightController.getAllFlights
   );
 
+  // /api/v1/airplane/:id
+router.get("/:id", FlightController.getFlight);
+
 module.exports = router;
