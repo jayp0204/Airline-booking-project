@@ -12,12 +12,9 @@ router.post(
 );
 
 // /api/v1/flight?trips = SAR-CHI -> GET
-router.get(
-    "/",
-    FlightController.getAllFlights
-  );
+router.get("/", FlightController.getAllFlights);
 
-  // /api/v1/airplane/:id
+// /api/v1/airplane/:id
 router.get("/:id", FlightController.getFlight);
 
 // /api/v1/airplane/:id/seats -> PATCH
